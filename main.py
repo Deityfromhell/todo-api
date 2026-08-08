@@ -42,17 +42,24 @@ def get_task(task_id: int):
 
 @app.put("/tasks/{task_id}")
 def update_task(task_id: int, updated_task: dict):
+    if not updated_task:
+        raise HTTPException(status_code=400, detail="Request body cannot be empty")
+
+    if "title" in updated_task and not updated_task["title"].strip():
+        raise HTTPException(status_code=400, detail="Title cannot be empty")
+
     for task in tasks:
         if task["id"] == task_id:
             task.update(updated_task)
             task["id"] = task_id
             return task
-    raise HTTPException(status_code=400, detail=f"Task {task_id} not found")
 
-@app.delete("/tasks/{task_id}")
+    raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
+
+@app.delete("/tasks/{task_id}", status_code=204)
 def delete_task(task_id: int):
     for task in tasks:
         if task["id"] == task_id:
             tasks.remove(task)
-            return {"message": "Task deleted"}
+            return
     raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
