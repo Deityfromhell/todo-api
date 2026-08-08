@@ -4,9 +4,21 @@ A simple CRUD API built with Python and FastAPI.
 
 ## How to Run
 
+Install the dependencies:
+
+```bash
+pip install fastapi uvicorn
+```
+
+Start the server:
+
 ```bash
 uvicorn main:app --reload
 ```
+
+The API will be available at:
+
+http://127.0.0.1:8000
 
 ## Endpoints
 
@@ -20,7 +32,7 @@ uvicorn main:app --reload
 
 ## Swagger UI
 
-Open:
+Interactive API documentation is available at:
 
 http://127.0.0.1:8000/docs
 
