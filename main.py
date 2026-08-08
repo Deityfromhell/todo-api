@@ -1,8 +1,12 @@
-from fastapi import FastAPI
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
-tasks = []
+tasks = [
+    {"id": 1, "title": "Final sınavına çalış", "done": False},
+    {"id": 2, "title": "FlyRank projesini tamamla", "done": False},
+    {"id": 3, "title": "GitHub reposunu güncelle", "done": True}
+]
 
 @app.get("/")
 def home():
@@ -31,7 +35,7 @@ def get_task(task_id: int):
     for task in tasks:
         if task["id"] == task_id:
             return task
-    return {"error": "Task not found"}
+    raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
 
 @app.put("/tasks/{task_id}")
 def update_task(task_id: int, updated_task: dict):
@@ -48,4 +52,4 @@ def delete_task(task_id: int):
         if task["id"] == task_id:
             tasks.remove(task)
             return {"message": "Task deleted"}
-    return {"error": "Task not found"}
+    raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
