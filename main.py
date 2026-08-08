@@ -6,7 +6,15 @@ tasks = []
 
 @app.get("/")
 def home():
-    return {"message": "Todo API is running!"}
+    return {
+        "name": "Task API",
+        "version": "1.0",
+        "endpoints": ["/tasks"]
+    }
+
+@app.get("/health")
+def health():
+    return {"status": "ok"}
 
 @app.get("/tasks")
 def get_tasks():
