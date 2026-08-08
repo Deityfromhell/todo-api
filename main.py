@@ -16,7 +16,7 @@ def home():
         "endpoints": ["/tasks"]
     }
 
-@app.get("/tasks/{task_id}", summary="Get one task")
+@app.get("/health", summary="Health check")
 def health():
     return {"status": "ok"}
 
@@ -38,7 +38,7 @@ def get_task(task_id: int):
     for task in tasks:
         if task["id"] == task_id:
             return task
-    raise HTTPException(status_code=400, detail=f"Task {task_id} not found")
+    raise HTTPException(status_code=404, detail=f"Task {task_id} not found")
 
 @app.put("/tasks/{task_id}", summary="Update a task")
 def update_task(task_id: int, updated_task: dict):
